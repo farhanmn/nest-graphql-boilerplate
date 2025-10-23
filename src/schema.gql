@@ -9,10 +9,15 @@ input CreateUserInput {
   salt: String!
 }
 
+input LoginDto {
+  email: String
+  password: String
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  login(email: String, password: String): User!
-  register(email: String, name: String, password: String): User!
+  login(loginParams: LoginDto!): User!
+  register(registerParams: RegisterDto!): User!
   removeUser(id: Int!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
@@ -20,6 +25,12 @@ type Mutation {
 type Query {
   user(id: Int!): User!
   users(name: String): [User!]!
+}
+
+input RegisterDto {
+  email: String
+  name: String
+  password: String
 }
 
 input UpdateUserInput {
