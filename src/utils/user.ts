@@ -1,7 +1,11 @@
 import { Algorithm, sign, verify } from 'jsonwebtoken';
 import { match } from './crypto.js';
 import { config } from 'dotenv';
-import { LoginRequest, User, UserData, UserToken } from '../common/models/user';
+import { LoginInput } from '../common/resources/auth/dto/login.input';
+import { UserWithPassword } from '../common/resources/users/dto/user-with-password.dto';
+import { User } from '../common/resources/users/dto/user.dto';
+import { UserWithTokenInput } from '../common/resources/users/dto/user-with-token.input';
+
 config();
 
 const jwtConf = {
@@ -16,7 +20,7 @@ const jwtConf = {
   }
 };
 
-const create_token = (userdata: UserData, expires?: string): UserToken => {
+const create_token = (userdata: User, expires?: string): UserWithTokenInput => {
   const data = {
     userid: userdata.id,
     username: userdata.name,
@@ -42,9 +46,9 @@ const verifyToken = (token: string) => {
 };
 
 const verifyPassword = (
-  userdata: User,
-  logindata: LoginRequest
-): UserData | null => {
+  userdata: UserWithPassword,
+  logindata: LoginInput
+): User | null => {
   if (!userdata) {
     return null;
   }
